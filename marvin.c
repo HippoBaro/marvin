@@ -1,3 +1,12 @@
+/*
+** marvin.c for marvin in /home/barrau_h/Desktop/marvin
+** 
+** Made by Hippolyte Barraud
+** Login   <barrau_h@epitech.net>
+** 
+** Started on  Sun Jan  4 22:59:27 2015 Hippolyte Barraud
+** Last update Sun Jan  4 23:01:34 2015 Hippolyte Barraud
+*/
 
 #include "include/marvin.h"
 
@@ -25,7 +34,7 @@ void	parse(const char *str)
 
 int	main(int ac, char **av)
 {
-  if (ac == 1)
+  if (ac < 2 || ac > 2)
     {
       putchar('\n');
       return (SUCCES);

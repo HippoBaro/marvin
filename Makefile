@@ -5,14 +5,14 @@
 ## Login   <barrau_h@epitech.net>
 ## 
 ## Started on  Thu Dec 25 17:11:33 2014 Hippolyte Barraud
-## Last update Sun Jan  4 02:22:56 2015 Hippolyte Barraud
+## Last update Sun Jan  4 20:16:30 2015 Hippolyte Barraud
 ##
 
 CC	= gcc
 
 RM	= rm -f
 
-CFLAGS	+= -W -Wall -ansi -pedantic
+CFLAGS	= -W -Werror -Wextra -Wall -ansi -pedantic
 
 NAME	= marvin
 

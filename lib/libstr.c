@@ -34,7 +34,7 @@ char	*trimwhitespace(char *str)
   while (end > str && isspace(*end))
     end--;
   *(end + 1) = ';';
-  *(end + 2) = 0;
+  *(end + 2) = '\0';
   return str;
 }
 

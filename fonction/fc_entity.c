@@ -5,7 +5,7 @@
 ** Login   <barrau_h@epitech.net>
 ** 
 ** Started on  Sun Jan  4 14:31:12 2015 Hippolyte Barraud
-** Last update Sun Jan  4 19:07:49 2015 arthur beaulieu
+** Last update Sun Jan  4 23:26:11 2015 Hippolyte Barraud
 */
 
 #include "../include/marvin.h"
@@ -25,24 +25,39 @@ void	init_fc_entity(t_fc_entity *entity)
   entity->param_count = 0;
 }
 
-void	print_fc_entity(t_fc_entity *entity)
+void	print_fc_params(t_fc_entity *entity)
 {
   int	i;
 
   i = 0;
-  printf("Déclaration d'une fonction %s ", entity->name);
-  printf("renvoyant un %s. ", entity->type.type);
   if (entity->param)
     {
-      printf("Elle prend en paramettre %d variable(s) : ",
+      printf(". Elle prend %d parametre(s) : ",
 	     entity-> param_count);
       while (i != entity->param_count)
 	{
 	  print_var_entity(&(entity->params[i]));
 	  i++;
-	  if (i != entity->param_count)
+	  if (i < entity->param_count - 1)
 	    printf(", ");
+	  else if (i == entity->param_count - 1)
+	    printf(" et ");
 	}
     }
-  printf("\n");
+}
+
+void	print_fc_entity(t_fc_entity *entity)
+{
+  printf("Déclaration d'une fonction %s ", entity->name);
+  printf("qui retourne un %s ", (entity->type.ptr) ?
+	 "pointeur" : (strcmp(entity->type.type, "void") == 0) ?
+	 "\b\b\b\b\b\brien." : "type");
+  if (entity->type.ptr && entity->type.ptr_depth > 1)
+    printf("de profondeur %d ", entity->type.ptr_depth);
+  printf("%s", (entity->type.ptr) ? "sur type " : "");
+  if (!strcmp(entity->type.type, "void") == 0)
+    printf("%s%s%s", entity->type.type, (entity->type.unsign) ?
+	   " non-signée" : "", (entity->type.constant) ?
+	   " en lecture seule" : "");
+  print_fc_params(entity);
 }

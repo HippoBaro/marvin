@@ -5,14 +5,22 @@
 ** Login   <barrau_h@epitech.net>
 ** 
 ** Started on  Sun Jan  4 14:19:04 2015 Hippolyte Barraud
-** Last update Sun Jan  4 19:10:30 2015 arthur beaulieu
+** Last update Sun Jan  4 23:36:30 2015 Hippolyte Barraud
 */
 
 #include "../include/marvin.h"
 
 void		analyse_keyword_fc(t_fc_entity *entity, char *keywrd)
 {
-  if (!entity->type.type)
+  if (IS_FC_USELESS(keywrd))
+    return;
+  else if (strcmp(keywrd, "struct") == 0)
+    entity->type.isstruct = TRUE;
+  else if (strcmp(keywrd, "const") == 0)
+    entity->type.constant = TRUE;
+  else if (strcmp(keywrd, "unsigned") == 0)
+    entity->type.unsign = TRUE;
+  else if (!entity->type.type)
     entity->type.type = (entity->type.isstruct) ? strcat(strdup("struct "),
 							 keywrd) : keywrd;
   else if (keywrd[0] == '*' && !entity->name)
@@ -23,6 +31,8 @@ void		analyse_keyword_fc(t_fc_entity *entity, char *keywrd)
     }
   if (keywrd[strlen(keywrd) - 1] == '(')
     {
+      if (!entity->type.type)
+	print_err("Pedantic : Le type de l'élément déclaré est inrouvable.");
       keywrd[strlen(keywrd) - 1] = '\0';
       set_array_config(&entity->type, keywrd);
       entity->name = keywrd;
@@ -58,6 +68,7 @@ void		get_params(char *params, t_fc_entity *entity)
 	  tmp = strndup(params + lastx, i + 1);
 	  entity->params[entity->param_count++] = get_declaration(tmp);
 	  lastx = i;
+	  free(tmp);
 	}
       i++;
     }
@@ -73,7 +84,8 @@ void		detect_params(const char *str, t_fc_entity *entity)
   end = 0;
   while (str[i] != '(')
     i++;
-  if (str[i] == '(' && str[i + 1] == ')')
+  if ((str[i] == '(' && str[i + 1] == ')') ||
+      strcmp(strndup(str + i, 6), "(void)") == 0)
     {
       entity->param = FALSE;
       return;
@@ -96,11 +108,14 @@ void		parse_fonction(const char *str)
   cpy_str = cut_fonction_param(str);
   init_fc_entity(&entity);
   grammar = str_to_wordtab(cpy_str);
+  free(cpy_str);
   i = 0;
   while (grammar[i])
-    {
       analyse_keyword_fc(&entity, grammar[i++]);
-    }
   detect_params(str, &entity);
   print_fc_entity(&entity);
+  i = 0;
+  while (grammar[i])
+    free(grammar[i++]);
+  printf(".\n");
 }

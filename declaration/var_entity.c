@@ -5,7 +5,7 @@
 ** Login   <barrau_h@epitech.net>
 ** 
 ** Started on  Sun Jan  4 14:09:10 2015 Hippolyte Barraud
-** Last update Sun Jan  4 19:07:05 2015 arthur beaulieu
+** Last update Sun Jan  4 23:39:04 2015 Hippolyte Barraud
 */
 
 #include "../include/marvin.h"
@@ -40,7 +40,7 @@ void	print_var_entity(t_var_entity *entity)
 {
   char	ptrdeth[15];
   char	arraydim[15];
-  
+
   get_str_for_data(&ptrdeth[0], &arraydim[0], entity);
   printf("%s%s%s %s%s%snommé(e) %s %s%s%s%s%s%s",
 	 (entity->ptr) ? "un pointeur" :
@@ -52,7 +52,7 @@ void	print_var_entity(t_var_entity *entity)
 	 (entity->ptr && entity->ptr_depth != 1) ? "\bème degré " : "",
 	 entity->name,
 	 (entity->ptr) ? (entity->array) ? "vers un tableaux de type " :
-	 "vers une variable de type " : "de type ",
+	 "vers type " : "de type ",
 	 entity->type,
 	 (entity->array && entity->ptr) ? " et de dimension " : "",
 	 (entity->array && entity->ptr) ? arraydim : "",
